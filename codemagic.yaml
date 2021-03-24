@@ -8,6 +8,7 @@ workflows:
             vars:
                 XCODE_WORKSPACE: "TestProject"
                 XCODE_SCHEME: "TestProject (staging)"
+                APP_CENTER_TOKEN: Encrypted(Z0FBQUFBQmdXeWpMMUd3RndvZDN4LVZ2S0czWjJucnJzU3VPMFBPRVVoTE1kckhmdGlfLWpRazViQzFBT1VhM0l5Z2ZMZ29YMmxyc2pwMG9sNjZOV3F2ZGw5Mkw0UmVvRExtNVNMLWtDRHFRUWVKdVJfRktuRVpCeDFoUTVvaW9RMDktN2xLUHpkcjk=)
             node: latest
         triggering:
             events:
@@ -25,15 +26,28 @@ workflows:
                 # build Android
                 cd android
                 ENVFILE=.env.staging ./gradlew assembleRelease
-            - |
-                # build iOS
-                cd ios
-                pod install
-                xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+            # - |
+            #     # build iOS
+            #     cd ios
+            #     pod install
+            #     xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+            - name: App Center Build Distribution
+              script: |
+                #!/usr/bin/env zsh
+
+                npm install -g appcenter-cli
+
+                appcenter distribute release \
+                    --group "Staging Builds" \
+                    --file "$FCI_BUILD_DIR/android/app/build/outputs/apk/release/app-release.apk" \
+                    --release-notes 'App submission via Codemagic' \
+                    --app aleksandr.termenzhy/TestProject \
+                    --token "${APP_CENTER_TOKEN}" \
+                    --quiet
         artifacts:
             - android/app/build/outputs/**/*.apk
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+            # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+            # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
         publishing:
             slack:
                 channel: '#test-app'
@@ -65,15 +79,15 @@ workflows:
                 # build Android
                 cd android
                 ENVFILE=.env.production ./gradlew assembleRelease
-            - |
-                # build iOS
-                cd ios
-                pod install
-                xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+            # - |
+            #     # build iOS
+            #     cd ios
+            #     pod install
+            #     xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
         artifacts:
             - android/app/build/outputs/**/*.apk
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+            # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+            # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
         publishing:
             slack:
                 channel: '#test-app'
