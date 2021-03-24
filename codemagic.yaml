@@ -38,7 +38,7 @@ workflows:
                 npm install -g appcenter-cli
 
                 appcenter distribute release \
-                    --group "Staging Builds" \
+                    --group "Staging builds" \
                     --file "$FCI_BUILD_DIR/android/app/build/outputs/apk/release/app-release.apk" \
                     --release-notes 'App submission via Codemagic' \
                     --app aleksandr.termenzhy/TestProject \
