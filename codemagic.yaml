@@ -1,17 +1,17 @@
 # Check out https://docs.codemagic.io/getting-started/building-a-react-native-app/ for more information
 # Please review and update values in curly braces
 
-- &COMMON_VARS
+COMMON_VARS: &COMMON_VARS
     XCODE_WORKSPACE: "TestProject"
     XCODE_SCHEME: "TestProject (staging)"
     APP_CENTER_TOKEN: Encrypted(Z0FBQUFBQmdXeWpMMUd3RndvZDN4LVZ2S0czWjJucnJzU3VPMFBPRVVoTE1kckhmdGlfLWpRazViQzFBT1VhM0l5Z2ZMZ29YMmxyc2pwMG9sNjZOV3F2ZGw5Mkw0UmVvRExtNVNMLWtDRHFRUWVKdVJfRktuRVpCeDFoUTVvaW9RMDktN2xLUHpkcjk=)
 
-- &ENV_VARS
+ENV_VARS: &ENV_VARS
     ENV_FILE_DEVELOP: .env.develop
     ENV_FILE_STAGING: .env.staging
     ENV_FILE_PRODUCTION: .env.production
 
-- workflows:
+workflows:
     react-native-staging:
         name: React Native App Staging
         environment:
