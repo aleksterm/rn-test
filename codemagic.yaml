@@ -1,14 +1,23 @@
 # Check out https://docs.codemagic.io/getting-started/building-a-react-native-app/ for more information
 # Please review and update values in curly braces
 
-workflows:
+- &COMMON_VARS
+    XCODE_WORKSPACE: "TestProject"
+    XCODE_SCHEME: "TestProject (staging)"
+    APP_CENTER_TOKEN: Encrypted(Z0FBQUFBQmdXeWpMMUd3RndvZDN4LVZ2S0czWjJucnJzU3VPMFBPRVVoTE1kckhmdGlfLWpRazViQzFBT1VhM0l5Z2ZMZ29YMmxyc2pwMG9sNjZOV3F2ZGw5Mkw0UmVvRExtNVNMLWtDRHFRUWVKdVJfRktuRVpCeDFoUTVvaW9RMDktN2xLUHpkcjk=)
+
+- &ENV_VARS
+    ENV_FILE_DEVELOP: .env.develop
+    ENV_FILE_STAGING: .env.staging
+    ENV_FILE_PRODUCTION: .env.production
+
+- workflows:
     react-native-staging:
         name: React Native App Staging
         environment:
             vars:
-                XCODE_WORKSPACE: "TestProject"
-                XCODE_SCHEME: "TestProject (staging)"
-                APP_CENTER_TOKEN: Encrypted(Z0FBQUFBQmdXeWpMMUd3RndvZDN4LVZ2S0czWjJucnJzU3VPMFBPRVVoTE1kckhmdGlfLWpRazViQzFBT1VhM0l5Z2ZMZ29YMmxyc2pwMG9sNjZOV3F2ZGw5Mkw0UmVvRExtNVNMLWtDRHFRUWVKdVJfRktuRVpCeDFoUTVvaW9RMDktN2xLUHpkcjk=)
+                << : [ *COMMON_VARS, *ENV_VARS ]
+                ENV_SPECIFIC_FILE: $ENV_FILE_STAGING
             node: latest
         triggering:
             events:
@@ -25,25 +34,25 @@ workflows:
             - |
                 # build Android
                 cd android
-                ENVFILE=.env.staging ./gradlew assembleRelease
+                ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
             # - |
             #     # build iOS
             #     cd ios
             #     pod install
             #     xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-            - name: App Center Build Distribution
-              script: |
-                #!/usr/bin/env zsh
+            # - name: App Center Build Distribution
+            #   script: |
+            #     #!/usr/bin/env zsh
 
-                npm install -g appcenter-cli
+            #     npm install -g appcenter-cli
 
-                appcenter distribute release \
-                    --group "Staging builds" \
-                    --file "$FCI_BUILD_DIR/android/app/build/outputs/apk/release/app-release.apk" \
-                    --release-notes 'App submission via Codemagic' \
-                    --app aleksandr.termenzhy/TestProject \
-                    --token "${APP_CENTER_TOKEN}" \
-                    --quiet
+            #     appcenter distribute release \
+            #         --group "Staging builds" \
+            #         --file "$FCI_BUILD_DIR/android/app/build/outputs/apk/release/app-release.apk" \
+            #         --release-notes 'App submission via Codemagic' \
+            #         --app aleksandr.termenzhy/TestProject \
+            #         --token "${APP_CENTER_TOKEN}" \
+            #         --quiet
         artifacts:
             - android/app/build/outputs/**/*.apk
             # - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
@@ -60,8 +69,8 @@ workflows:
         name: React Native App Production
         environment:
             vars:
-                XCODE_WORKSPACE: "TestProject"
-                XCODE_SCHEME: "TestProject (production)"
+                << : [ *COMMON_VARS, *ENV_VARS ]
+                ENV_SPECIFIC_FILE: $ENV_FILE_PRODUCTION
             node: latest
         triggering:
             events:
@@ -78,7 +87,7 @@ workflows:
             - |
                 # build Android
                 cd android
-                ENVFILE=.env.production ./gradlew assembleRelease
+                ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
             # - |
             #     # build iOS
             #     cd ios
