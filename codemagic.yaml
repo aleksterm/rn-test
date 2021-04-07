@@ -41,7 +41,7 @@ workflows:
                   include: true
                   source: true
         scripts:   
-            - <<: [ *yarn_install, *scripts ]
+            { *yarn_install, *scripts }
 
             # - |
             #     # build iOS
@@ -90,7 +90,7 @@ workflows:
                   include: true
                   source: true
         scripts:
-            - <<: [ *yarn_install, *scripts ]
+            { *yarn_install, *scripts }
 
             # - |
             #     # build iOS
