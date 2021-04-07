@@ -1,8 +1,10 @@
 # Check out https://docs.codemagic.io/getting-started/building-a-react-native-app/ for more information
 # Please review and update values in curly braces
 
-scripts: &scripts
+yarn: &yarn_install
     - yarn install
+
+scripts: &scripts
     - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
     - |
         # build Android
@@ -37,7 +39,7 @@ workflows:
                   include: true
                   source: true
         scripts:   
-            *scripts
+            [ *yarn_install, *scripts ]
             # - |
             #     # build iOS
             #     cd ios
@@ -85,7 +87,7 @@ workflows:
                   include: true
                   source: true
         scripts:
-            *scripts
+            [ *yarn_install, *scripts ]
             # - |
             #     # build iOS
             #     cd ios
