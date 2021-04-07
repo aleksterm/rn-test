@@ -26,7 +26,7 @@ workflows:
         name: React Native App Staging
         environment:
             vars:
-                << : [ *COMMON_VARS, *ENV_VARS ]
+                <<: [ *COMMON_VARS, *ENV_VARS ]
                 ENV_SPECIFIC_FILE: $ENV_FILE_STAGING
             node: latest
         triggering:
@@ -40,7 +40,7 @@ workflows:
                   source: true
         scripts:   
             - *yarn_install
-            - *scripts
+            - <<: *scripts
             # - |
             #     # build iOS
             #     cd ios
@@ -75,7 +75,7 @@ workflows:
         name: React Native App Production
         environment:
             vars:
-                << : [ *COMMON_VARS, *ENV_VARS ]
+                <<: [ *COMMON_VARS, *ENV_VARS ]
                 ENV_SPECIFIC_FILE: $ENV_FILE_PRODUCTION
             node: latest
         triggering:
@@ -89,7 +89,7 @@ workflows:
                   source: true
         scripts:
             - *yarn_install
-            - *scripts
+            - <<: *scripts
             # - |
             #     # build iOS
             #     cd ios
