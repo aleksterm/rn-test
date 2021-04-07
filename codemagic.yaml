@@ -2,9 +2,9 @@
 # Please review and update values in curly braces
 
 scripts: &scripts
-    - script: yarn install
-    - script: echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
-    - script: |
+    - yarn install
+    - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+    - |
         # build Android
         cd android
         ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
@@ -37,7 +37,7 @@ workflows:
                   include: true
                   source: true
         scripts:   
-            << : *scripts
+            *scripts
             # - |
             #     # build iOS
             #     cd ios
@@ -85,7 +85,7 @@ workflows:
                   include: true
                   source: true
         scripts:
-            << : *scripts
+            *scripts
             # - |
             #     # build iOS
             #     cd ios
