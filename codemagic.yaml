@@ -2,9 +2,9 @@
 # Please review and update values in curly braces
 
 scripts: &scripts
-    - yarn install
-    - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
-    - |
+    - script: yarn install
+    - script: echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+    - script: |
         # build Android
         cd android
         ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
