@@ -37,7 +37,7 @@ workflows:
                   include: true
                   source: true
         scripts:   
-            << : [ *scripts ]
+            << : *scripts
             # - |
             #     # build iOS
             #     cd ios
@@ -85,7 +85,7 @@ workflows:
                   include: true
                   source: true
         scripts:
-            << : [ *scripts ]
+            << : *scripts
             # - |
             #     # build iOS
             #     cd ios
