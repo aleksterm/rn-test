@@ -1,6 +1,14 @@
 # Check out https://docs.codemagic.io/getting-started/building-a-react-native-app/ for more information
 # Please review and update values in curly braces
 
+scripts: &scripts
+    - yarn install
+    - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+    - |
+        # build Android
+        cd android
+        ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
+
 COMMON_VARS: &COMMON_VARS
     XCODE_WORKSPACE: "TestProject"
     XCODE_SCHEME: "TestProject (staging)"
@@ -28,13 +36,8 @@ workflows:
                 - pattern: staging
                   include: true
                   source: true
-        scripts:
-            - yarn install
-            - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
-            - |
-                # build Android
-                cd android
-                ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
+        scripts:   
+            << : [ *scripts ]
             # - |
             #     # build iOS
             #     cd ios
@@ -82,12 +85,7 @@ workflows:
                   include: true
                   source: true
         scripts:
-            - yarn install
-            - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
-            - |
-                # build Android
-                cd android
-                ENVFILE=$ENV_SPECIFIC_FILE ./gradlew assembleRelease
+            << : [ *scripts ]
             # - |
             #     # build iOS
             #     cd ios
