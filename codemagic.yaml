@@ -42,7 +42,7 @@ workflows:
                   source: true
         scripts:   
             - *yarn_install
-            - <<: *scripts
+            - *scripts
 
             # - |
             #     # build iOS
@@ -92,7 +92,7 @@ workflows:
                   source: true
         scripts:
             - *yarn_install
-            - <<: *scripts
+            - *scripts
 
             # - |
             #     # build iOS
