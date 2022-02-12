@@ -89,7 +89,7 @@ const App: () => Node = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 };
 
 const styles = StyleSheet.create({
