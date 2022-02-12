@@ -15,9 +15,6 @@ name: Lint Code Base
 # Start the job on all push #
 #############################
 on:
-  push:
-    branches-ignore: [production]
-    # Remove the line above to run when pushing to master
   pull_request:
     branches: [production]
 
@@ -54,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           LINTER_RULES_PATH: /
-          TYPESCRIPT_ES_CONFIG_FILE: eslint.js
+          TYPESCRIPT_ES_CONFIG_FILE: .eslint.js
           EDITORCONFIG_FILE_NAME: _editorconfig
 
           VALIDATE_ALL_CODEBASE: true
