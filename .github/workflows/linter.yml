@@ -54,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           TYPESCRIPT_ES_CONFIG_FILE: ./eslint.js
-          EDITORCONFIG_FILE_NAME: _editorconfig
+          EDITORCONFIG_FILE_NAME: ./_editorconfig
 
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_TSX: true
