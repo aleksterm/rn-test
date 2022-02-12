@@ -22,7 +22,29 @@ on:
 # Set the Job #
 ###############
 jobs:
-  build:
+  lint:
+      name: Setup Node.js environment
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v2
+          with:
+            # Full git history is needed to get a proper list of changed files within `super-linter`
+            fetch-depth: 0
+
+        - name: Setup Node
+          uses: actions/setup-node@v2.5.1
+          with:
+            node-version: 16
+          
+        - name: Instal dependencies
+          run: npm ci
+          
+        - name: Lint
+          run: npm run lint
+
+  super-lint:
     # Name the Job
     name: Lint Code Base
     # Set the agent to run on
