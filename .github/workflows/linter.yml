@@ -39,7 +39,7 @@ jobs:
             node-version: 12
           
         - name: Instal dependencies
-          run: npm ci
+          run: yarn install
           
         - name: Lint
           run: npm run lint
