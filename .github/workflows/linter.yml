@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
           LINTER_RULES_PATH: /
-          TYPESCRIPT_ES_CONFIG_FILE: .eslint.js
+          TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.js
           EDITORCONFIG_FILE_NAME: _editorconfig
 
           VALIDATE_ALL_CODEBASE: true
