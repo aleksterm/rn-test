@@ -53,8 +53,9 @@ jobs:
           DEFAULT_BRANCH: production
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          TYPESCRIPT_ES_CONFIG_FILE: ./eslint.js
-          EDITORCONFIG_FILE_NAME: ./_editorconfig
+          LINTER_RULES_PATH: /
+          TYPESCRIPT_ES_CONFIG_FILE: eslint.js
+          EDITORCONFIG_FILE_NAME: _editorconfig
 
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_TSX: true
