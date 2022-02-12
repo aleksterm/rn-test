@@ -36,7 +36,7 @@ jobs:
         - name: Setup Node
           uses: actions/setup-node@v2.5.1
           with:
-            node-version: 16
+            node-version: 12
           
         - name: Instal dependencies
           run: npm ci
