@@ -17,16 +17,16 @@ jobs:
           with:
             fetch-depth: 0
 
-        - name: Setup Node
-          uses: actions/setup-node@v2.5.1
-          with:
-            node-version: 16
+      - name: Setup Node
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 16
           
-        - name: Instal dependencies
-          run: yarn install --frozen-lockfile
-          
-        - name: Lint
-          run: yarn run lint
+      - name: Instal dependencies
+        run: yarn install --frozen-lockfile
+        
+      - name: Lint
+        run: yarn run lint
 
   build:
       name: Build Android project
