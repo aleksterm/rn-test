@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: 16
-          cache: 'yarn'
 
       - name: Instal dependencies
         run: yarn install --frozen-lockfile
@@ -44,6 +43,9 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
+          
+      - name: Instal dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2.1.3
